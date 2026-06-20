@@ -1,0 +1,6 @@
+app/.env
+docker/.env
+docker/volumes/*/data/*
+!docker/volumes/*/data/.gitkeep
+app/tmp/
+*.log

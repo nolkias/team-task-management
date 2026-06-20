@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    volumes:
+      - ../app:/app
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    env_file:
+      - ../app/.env
+    depends_on:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-teamtask}
+    volumes:
+      - ./volumes/mysql/data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+
+  redis:
+    image: redis:7
+    volumes:
+      - ./volumes/redis/data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
